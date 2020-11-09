@@ -9,40 +9,23 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class testApp {
 
-    private static JsonNode getContext() {
-        ObjectNode data = JsonNodeFactory.instance.objectNode();
-        data.put("name","jos");
-        data.put("age",10);
-        ArrayNode parents=JsonNodeFactory.instance.arrayNode();
-        data.putPOJO("parents",parents);
-        ObjectNode father = JsonNodeFactory.instance.objectNode();
-        father.put("name","father");
-        father.put("age",60);
-        parents.add(father);
-        ObjectNode mother = JsonNodeFactory.instance.objectNode();
-        mother.put("name","mother");
-        mother.put("age",50);
-        parents.add(mother);
-        ObjectNode child=JsonNodeFactory.instance.objectNode();
-        child.putPOJO("child",data);
-        return child;
+    private static JsonNode getContext() throws IOException {
+        try (FileReader fileReader = new FileReader("src/main/resources/data.json")) {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(fileReader, JsonNode.class);
+        }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Expressions expr = null;
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonObj = null;
-        String json = "{ \"a\":1, \"b\":2, \"c\":[1,2,3,4,5] }";
-        String expression = "$child.name";
-        try {
-            jsonObj = mapper.readTree(json);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        jsonObj=getContext();
+        String expression = "child.name";
+        JsonNode jsonObj=getContext();
 
         try {
             System.out.println("Using json:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObj));
