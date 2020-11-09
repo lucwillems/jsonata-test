@@ -16,7 +16,7 @@
         <dependency>
             <groupId>com.ibm.jsonata4java</groupId>
             <artifactId>JSONata4Java</artifactId>
-            <version>1.0.0</version>
+            <version>1.4.8</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
