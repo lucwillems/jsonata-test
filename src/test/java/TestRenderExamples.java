@@ -77,9 +77,11 @@ public class TestRenderExamples {
         logger.info("child.parents: {}",evaluate(json,"child.parents"));
         logger.info("child.parents.name: {}",evaluate(json,"child.parents.name"));
         Assert.assertNotNull(evaluate(json,"child"));
+        Assert.assertNotNull(json.path("child").path("name"));
         Assert.assertNotNull(evaluate(json,"child.name"));
         Assert.assertNotNull(evaluate(json,"child.parents"));
         Assert.assertNotNull(evaluate(json,"child.parents.name"));
+
     }
 
     @Test
